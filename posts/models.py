@@ -1,4 +1,3 @@
-from crypt import methods
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -13,11 +12,15 @@ class Group(models.Model):
         return self.title
 
 class Post(models.Model):
-    class Meta:
-        ordering = ['-pub_date']
-    name = models.CharField(max_length=200, default='unknown')
+    
+    #name = models.CharField(max_length=200, default='unknown')
     text = models.TextField()
     pub_date = models.DateTimeField("date published", auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     group = models.ForeignKey(Group, on_delete=models.SET_NULL, related_name="posts", blank=True, null=True)
 
+    def __str__(self):
+        return self.text
+    
+    class Meta:
+        ordering = ['-pub_date']
